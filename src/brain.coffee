@@ -121,7 +121,8 @@ class Brain extends EventEmitter
   usersForRawFuzzyName: (fuzzyName) ->
     lowerFuzzyName = fuzzyName.toLowerCase()
     user for key, user of (@data.users or {}) when (
-      user.name.toLowerCase().lastIndexOf(lowerFuzzyName, 0) is 0
+      if user? && user.name?
+        user.name.toLowerCase().lastIndexOf(lowerFuzzyName, 0) is 0
     )
 
   # Public: If fuzzyName is an exact match for a user, returns an array with
@@ -133,7 +134,8 @@ class Brain extends EventEmitter
     matchedUsers = @usersForRawFuzzyName(fuzzyName)
     lowerFuzzyName = fuzzyName.toLowerCase()
     for user in matchedUsers
-      return [user] if user.name.toLowerCase() is lowerFuzzyName
+      if user? && user.name?
+        return [user] if user.name.toLowerCase() is lowerFuzzyName
 
     matchedUsers
   
